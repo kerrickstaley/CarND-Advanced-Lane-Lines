@@ -4,6 +4,8 @@ distortion, performed a perspective transform to translate the lane area into a 
 to find areas that were likely lane lines, fit a quadratic polynomial to the estimated lane line centers, and estimated
 the curvature of the road using this polynomial.
 
+The code for this project is in [this Jupyter notebook](project.ipynb).
+
 ### Camera Calibration
 
 In order to calibrate the camera, I used several photos of a 10x7 chessboard that were provided to me. For each image,
@@ -19,7 +21,7 @@ Here is an example of one of the images of the chessboard before and after undis
 <img src="camera_cal/calibration1.jpg" width="400">
 <img src="undistorted_example.jpg" width="400">
 
-The code to perform this undistortion is in cells 1-2 of the [notebook](project.ipynb).
+The code to perform this undistortion is in cells 1-2 of the notebook.
 
 ### Pipeline (single images)
 
