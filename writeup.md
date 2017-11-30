@@ -46,7 +46,8 @@ Afterwards, I used the camera matrix and distortion coefficients to undistort im
 `cv2.undistort`.
 
 Here is an example of one of the images of the chessboard before and after undistortion:
-<img src="camera_cal/calibration17.jpg" width="400">
+
+<img src="camera_cal/calibration1.jpg" width="400">
 <img src="undistorted_example.jpg" width="400">
 
 The code to perform this undistortion is in cells 1-2 of the [notebook](project.ipynb).
@@ -64,14 +65,14 @@ When processing images from the car's camera, the first step was undistorting th
 To find lane lines, I converted the image to the HSV color space and applied thresholds to detect yellow and white
 lines.
 
-The thresholds for yellow lines were as follows:
+The thresholds for yellow lines were:
 
 ```
 15 <= hue <= 30 and 55 < saturation
 ```
 This captures areas that have a hue that is roughly yellow and that are at least somewhat saturated.
 
-The thresholds for white lines were as follows:
+The thresholds for white lines were:
 ```
 saturation < 32 and 200 <= value
 ```
@@ -81,8 +82,8 @@ This captures areas that have low overall saturation and are bright.
 Here is an example of the areas that are detected as potential lane lines in the above image:
 <img src="output_images/test4_lane_lines.jpg" width="400">
 
-I also experimented with using Sobel operators to detect edges in the input images, but the Sobel operator didn't
-identify the lane lines as cleanly as color thresholding using HSV, especially in parts of the image that were far away. 
+I also experimented with using Sobel operators to detect edges in the input images, but they didn't distinguish
+the lane lines as cleanly as color thresholding using HSV, especially in parts of the image that were far away. 
 
 #### Perspective transform
 In order to compute the curvature of the road, I first transformed it into a top-down perspective view using
@@ -93,7 +94,8 @@ This produced a transformed image like below:
 
 <img src="output_images/test4_perspective_undistorted.jpg">
 
-Here is the perspective transform applied to the color-thresholded image. The lane lines' shapes are clearly visible:
+Here is the same perspective transform instead applied to the color-thresholded image above.
+The lane lines' shapes are clearly visible:
 
 <img src="output_images/test4_perspective_lane_lines.jpg">
 
@@ -106,8 +108,8 @@ I started by calculating, for each column in the color-thresholded perspective i
 lower third of the image. Then I found the columns with the highest number of set pixels on either side of the image's
 centerline. These were used as starting points for finding the lane lines.
 
-After that, I performed a horizontal Gaussian blur on the image, which effectively convolves the image data with a
-Gaussian in the horizontal direction. Afterwards I divided the image into 10 horizontal slices, and for each slice
+After that, I performed a horizontal Gaussian blur on the image, which convolves the image data with a Gaussian
+in the horizontal direction. Afterwards I divided the blurred image into 10 horizontal slices, and for each slice
 starting from the bottom, I calculated the sum of the intensities in each column, similar to the previous paragraph.
 I then searched an area 125 pixels to the left and right of the current estimated position for each lane line, and
 found the column with the highest overall intensity, and used this column as the estimate for the lane line's position
@@ -132,7 +134,7 @@ used the polynomial computed above.
 
 To calculate curvature, I first transformed the `x, y` coordinates in my image into
 real-world coordinates, using the horizontal distance between the lane lines and the vertical distance between
-subsequence dashed lane markers to estimate the appropriate scaling factors. Then I re-fit a quadratic polynomial and
+subsequent dashed lane markers to estimate the appropriate scaling factors. Then I re-fit a quadratic polynomial and
 calculated its radius of curvature using the formula
 
 `R = |(1 + x'^2)^(3/2) / x''|`
@@ -140,10 +142,11 @@ calculated its radius of curvature using the formula
 which I evaluated using a value of `y` corresponding to the bottom of the image (again remember that we're modeling
 `x` as a function of `y`).
 
-To calculate offset from the road's center, I measured the distance from the image's center to the center of the two
-lane lines (again at the bottom of the image), and transformed to a real-world distance using the same scaling factor.
+To calculate offset from the road's center, I measured the horizontal distance from the image's center to the center
+of the two lane lines (again at the bottom of the image), and transformed this value to a real-world distance
+using the same scaling factor.
 
-This produced the below result (the offset from center is in the lower left and the radius of curvature is in the lower
+This produced the below result (the radius of curvature is in the lower left and the offset from center is in the lower
 right; both are in meters):
 
 <img src="output_images/test4_lane_curvature_car_pos_viz.jpg" width="400">
@@ -154,7 +157,7 @@ It appears that the driver of the car tends to drive about 30 cm left of center 
 
 Finally, to visualize the drivable area in the original image, I drew a polygon approximating the area between the two
 lane lines in the perspective-transformed image, then reversed the perspective transform and overlayed the result on the
-input image. It looks like the below:
+input image. This is the result:
 
 <img src="output_images/test4_drivable_area_viz.jpg" width="400">
 
