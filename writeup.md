@@ -139,8 +139,8 @@ input image. This is the result:
 I created a visualization of the drivable area in a video where the car drives along a highway with variations
 in the curvature of the road, the color of the road surface, and the lighting of the road surface:
 
-<a href="https://youtu.be/70pzodXlEYo">
-<img src="https://img.youtube.com/vi/70pzodXlEYo/0.jpg">
+<a href="https://youtu.be/rqhZfT6wg0A">
+<img src="https://img.youtube.com/vi/rqhZfT6wg0A/0.jpg">
 </a>
 
 ---
