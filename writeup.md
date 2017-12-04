@@ -142,3 +142,20 @@ in the curvature of the road, the color of the road surface, and the lighting of
 <a href="https://youtu.be/70pzodXlEYo">
 <img src="https://img.youtube.com/vi/70pzodXlEYo/0.jpg">
 </a>
+
+---
+
+### Discussion
+
+The hardest part of this project was finding the right set of thresholds in order to segment out the lane lines in the
+image. I ended up using color thresholding using the HSV color space, but it's probably possible to do even better
+using edge detection or similar. An even better approach might be to use other visual cues in the environment (like the
+concrete barrier to the left of the road) to help identify the road surface's position.
+
+Because I use color segmentation and not edge-based segmentation, my pipeline is brittle to changes in illumination.
+One way to handle this would be to normalize the brightness of the region-of-interest based on the overall brightness
+of the frame. Edge detection would also help here.
+
+Another huge assumption that my code makes is that the upcoming road surface is flat. Any hills or valleys ahead would
+invalidate the estimate of the road's curvature. A smarter algorithm might try to model the vertical shape of the road
+(perhaps based on a pre-programmed map) and account for it.
